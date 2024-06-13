@@ -1,0 +1,31 @@
+erDiagram
+    usuarios {
+        idUsuario INT
+        email VARCHAR(400)
+        user VARCHAR(250)
+        password VARCHAR(5000)
+        photo BLOB
+        createdAt DATETIME
+        updatedAt DATETIME
+    }
+
+    publicacions {
+        idPublicacion INT
+        photo VARCHAR(5000)
+        titulo VARCHAR(200)
+        contenido VARCHAR(5000)
+        createdAt DATETIME
+        updatedAt DATETIME
+    }
+
+    comentarios {
+        idComentario INT
+        ComentarioTexto VARCHAR(1000)
+        idUsuario INT
+        idPublicacion INT
+        createdAt DATETIME
+        updatedAt DATETIME
+    }
+
+    usuarios ||--o{ comentarios : "escriben"
+    publicacions ||--o{ comentarios : "tienen"

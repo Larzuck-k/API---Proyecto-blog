@@ -1,0 +1,25 @@
+sequenceDiagram
+    participant Creador
+    participant Usuario
+    participant Blog
+           participant Api
+    Creador ->> Blog: Crear entrada del blog
+        Creador ->> Blog: Editar entrada del blog
+            Creador ->> Blog: Eliminar entrada del blog
+    Usuario ->> Blog: Crear cuenta en el blog
+        Usuario ->> Blog: Ingresar con la cuenta
+    Usuario ->> Blog: hacer comentarios en las entradas
+
+        Blog ->> Api: Almacenar cuenta
+             Blog ->> Api: Almacenar comentarios
+                  Blog ->> Api: Almacenar entradas
+
+                    Api ->> Blog: Enviar comentarios
+                       Api ->> Blog: Enviar Publicaciones
+                          Api ->> Blog: Enviar Cuentas
+
+                                Api ->> Blog: Validar ingreso
+
+                                           
+                              Blog  ->> Usuario: Ingresar 
+                              Blog  ->> Creador: Ingresar 

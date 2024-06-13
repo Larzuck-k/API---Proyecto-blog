@@ -1,0 +1,19 @@
+@startuml
+left to right direction
+actor "Dueño del blog" as owner
+actor "Usuario registrado" as user
+
+rectangle "Blog" {
+  (Crear entrada) as (A)
+  (Comentar entrada) as (B)
+  (Leer entrada) as (C)
+  (Actualizar entrada) as (D)
+  (Eliminar entrada) as (E)
+
+  owner --> (A)
+  owner --> (D)
+  owner --> (E)
+  user --> (B)
+  user --> (C)
+}
+@enduml
