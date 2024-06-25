@@ -38,7 +38,7 @@ const fileFilter = (req, file, cb) => {
   if(mimetype && extname){
       return cb(null,true);
   } else {
-      cb('Error: Images Only!');
+      cb('Subir solamente formatos de tipo imagen: (jpeg|jpg|png|gif)');
   }
 }
 
@@ -49,9 +49,9 @@ const upload = multer({
 
 
 
-usuario.get("/usuario/login", loginUsuario);
+usuario.post("/usuario/login", loginUsuario);
 
-usuario.get("/usuario/profile", imagenUsuario);
+usuario.post("/usuario/profile", imagenUsuario);
 usuario.put("/usuario/edit",upload.single('photo'), editarUsaurio);
 usuario.post("/usuario/create",upload.single('photo'), crearUsuario);
 usuario.delete("/usuario/delete", eliminarUsuario);

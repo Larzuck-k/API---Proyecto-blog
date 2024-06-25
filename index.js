@@ -5,6 +5,8 @@ import rutausuario from "./src/routes/usuario.js";
 import rutacomentario from "./src/routes/comentario.js";
 import rutapublicacion from "./src/routes/publicacion.js";
 import cnx from "./src/models/db.js";
+import cors from 'cors'
+
 
 import bodyparser from "body-parser";
 
@@ -14,6 +16,7 @@ dotenv.config({ path: "././.env" });
 
 //creamos el server node
 const app = express();
+
 const port = process.env.PORT;
 //app.use(cors());
 
@@ -27,6 +30,7 @@ cnx
     console.log(error);
   });
 
+  app.use(cors());
 
   app.use(bodyparser.urlencoded({extended: true}));
   app.use(bodyparser.json());

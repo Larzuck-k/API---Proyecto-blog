@@ -14,13 +14,13 @@ console.log(Comentarios)
 if(Comentarios.length >=1){
     res.status(200).send(Comentarios);
   }else{
-    res.status(404).send({
+    res.status(200).send({
       status: "error",
       mensaje:"No se han encontrado resutlados",
     })
   }
   }catch(error){
-    res.status(404).send({
+    res.status(200).send({
       status: "error",
       mensaje: "Ha ocurrido un error inesperado: "+error,
     })
@@ -44,7 +44,7 @@ export const crearComentario = async (req, res) => {
       mensaje: "Se ha creado el comentario correctamente",
     });
    } catch (error) {
-    res.status(404).send({
+    res.status(200).send({
       status: "error",
       mensaje: "Ha ocurrido un error inesperado: "+error,
     })
@@ -79,7 +79,7 @@ export const editarComentario = async (req, res) => {
 
   } 
   catch (error) {
-    res.status(404).send({
+    res.status(200).send({
       status: "Error",
       mensaje:
         "No se ha podido editar el comentario: "+error,
@@ -97,7 +97,7 @@ export const eliminarComentario = async (req, res) => {
       mensaje: "Se ha eliminado el comentario correctamente",
     });
   } else {
-    res.status(404).send({
+    res.status(200).send({
       status: "error",
       mensaje: "Ha ocurrido un error inesperado",
     });
