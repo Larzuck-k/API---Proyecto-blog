@@ -7,7 +7,8 @@ import {
   editarUsaurio,
   crearUsuario,
   eliminarUsuario,
-  imagenUsuario
+  imagenUsuario,
+  perfilUsuario
 } from "../controllers/usuario.js";
 const usuario = Router();
 
@@ -55,6 +56,6 @@ usuario.post("/usuario/profile", imagenUsuario);
 usuario.put("/usuario/edit",upload.single('photo'), editarUsaurio);
 usuario.post("/usuario/create",upload.single('photo'), crearUsuario);
 usuario.delete("/usuario/delete", eliminarUsuario);
-
+usuario.post("/usuario/data", perfilUsuario);
 
 export default usuario;

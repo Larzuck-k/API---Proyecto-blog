@@ -45,7 +45,7 @@ const upload = multer({
 
 
 publicacion.get("/publicacion/listing", listarPublicaciones);
-publicacion.get("/publicacion/image", imagenPublicacion);
+publicacion.post("/publicacion/image", imagenPublicacion);
 publicacion.put("/publicacion/edit", editarPublicacion);
 publicacion.post("/publicacion/create",upload.single('photo'), crearPublicacion);
 publicacion.delete("/publicacion/delete", eliminarPublicacion);

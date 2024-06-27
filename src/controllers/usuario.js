@@ -1,7 +1,7 @@
-import { where } from "sequelize";
+
 import Usuario from "../models/usuario.js";
 import bcrypt, { compare } from "bcrypt";
-import multer from "multer";
+
 import fs from "fs";
 export const loginUsuario = async (req, res) => {
 try {
@@ -22,6 +22,7 @@ try {
         mensaje: "Ingreso exitoso",
         user: usuario[0].user,
         email: usuario[0].email,
+        idUsuario: usuario[0].idUsuario,
 
         id: usuario[0].id,
       });
@@ -46,36 +47,76 @@ try {
 }
 };
 export const imagenUsuario = async (req, res) => {
-  const { password, email } = req.body;
+
+  try {
+    
+ 
+  const { idUsuario } = req.body;
   let Error = "";
   const usuario = await Usuario.findAll({
     where: {
-      email: email,
+      idUsuario: idUsuario,
     },
   });
 
   const rowCount = usuario.length;
 
   if (rowCount == 1) {
-    if (bcrypt.compareSync(password, usuario[0].password) == true) {
+
       const imagePath = usuario[0].photo;
       fs.readFile(imagePath, (err, data) => {
         res.writeHead(200, { "Content-Type": "image/jpeg" });
         res.end(data);
       });
-    } else {
-      res.status(200).send({
-        status: "error",
-        mensaje: "Datos incorrectos, verifique e intente de nuevo",
-      });
-    }
+    
   } else {
+    res.status(200).send({
+      status: "error",
+      mensaje: "Datos incorrectos, verifique e intente de nuevo",
+    });
+  } } catch (error) {
     res.status(200).send({
       status: "error",
       mensaje: "Datos incorrectos, verifique e intente de nuevo",
     });
   }
 };
+
+export const perfilUsuario = async (req, res) => {
+  try {
+    
+  
+  
+  
+  const { idUsuario } = req.body;
+  let Error = "";
+  const usuario = await Usuario.findAll({attributes: ['user','idUsuario']},{
+    where: {
+      idUsuario: idUsuario,
+    },
+  });
+
+  const rowCount = usuario.length;
+
+  if (rowCount == 1) {
+
+  
+    res.status(200).send(usuario);
+
+    
+  } else {
+    res.status(200).send({
+      status: "error",
+      mensaje: "Datos incorrectos, verifique e intente de nuevo",
+    });
+  }}
+ catch (error) {
+  res.status(200).send({
+    status: "error",
+    mensaje: "Datos incorrectos, verifique e intente de nuevo",
+  });
+  }};
+
 
 export const crearUsuario = async (req, res) => {
   try {

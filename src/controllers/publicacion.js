@@ -1,6 +1,6 @@
-import { where } from "sequelize";
+
 import Publicacion from "../models/publicacion.js";
-import multer from "multer";
+
 import fs from "fs";
 
 export const listarPublicaciones = async (req, res) => {
