@@ -28,15 +28,16 @@ if(Comentarios.length >=1){
   }
 
 export const crearComentario = async (req, res) => {
-  const { ComentarioTexto, idUsuario, idPulicacion } = req.body;
+  const { ComentarioTexto, idUsuario, idPublicacion } = req.body;
   //Encriptar contraseña y validar que no se ha utilizado el email
+  console.log(idPublicacion)
   {
    try {
      
  await Comentario.create({
       ComentarioTexto,
       idUsuario,
-      idPulicacion,
+      idPublicacion,
     });
     res.status(200).send({
       status: "success",
