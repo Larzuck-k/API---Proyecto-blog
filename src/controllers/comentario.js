@@ -1,14 +1,13 @@
-import { where } from "sequelize";
+
+import {QueryTypes } from "sequelize";
 import Comentario from "../models/comentario.js";
 
 export const listarporPublicacion = async (req, res) => {
 
   //Encriptar contraseña y validar que no se ha utilizado el email
   try {
-  const Comentarios = await Comentario.findAll({
-    where: {
-      idPublicacion: req.query.id,
-    },
+  const Comentarios = await Comentario.sequelize.query('SELECT `idComentario`, `ComentarioTexto`, comentarios.idUsuario,usuarios.user,comentarios.idUsuario, `idPublicacion`, comentarios.createdAt FROM `comentarios`  INNER JOIN usuarios ON comentarios.idUsuario = usuarios.idUsuario WHERE idPublicacion = ' + req.query.id, {
+    type: QueryTypes.SELECT,
   });
 console.log(Comentarios)
 if(Comentarios.length >=1){
