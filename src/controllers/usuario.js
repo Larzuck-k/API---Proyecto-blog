@@ -1,80 +1,81 @@
-
 import Usuario from "../models/usuario.js";
 import bcrypt, { compare } from "bcrypt";
 
 import fs from "fs";
 export const loginUsuario = async (req, res) => {
-try {
-  const { password, email } = req.body;
-  let Error = "";
-  const usuario = await Usuario.findAll({
-    where: {
-      email: email,
-    },
-  });
+  try {
+    const { password, email } = req.body;
+    let Error = "";
+    const usuario = await Usuario.findAll({
+      where: {
+        email: email,
+      },
+    });
 
-  const rowCount = usuario.length;
+    const rowCount = usuario.length;
 
-  if (rowCount == 1) {
-    if (bcrypt.compareSync(password, usuario[0].password) == true) {
-      res.status(200).send({
-        status: "success",
-        mensaje: "Ingreso exitoso",
-        user: usuario[0].user,
-        email: usuario[0].email,
-        idUsuario: usuario[0].idUsuario,
+    if (rowCount == 1) {
+      if (bcrypt.compareSync(password, usuario[0].password) == true) {
+        res.status(200).send({
+          status: "success",
+          mensaje: "Ingreso exitoso",
+          user: usuario[0].user,
+          email: usuario[0].email,
+          idUsuario: usuario[0].idUsuario,
 
-        id: usuario[0].id,
-      });
+          id: usuario[0].id,
+        });
+      } else {
+        res.status(200).send({
+          status: "error",
+          mensaje: "Datos incorrectos, verifique e intente de nuevo",
+        });
+      }
     } else {
       res.status(200).send({
         status: "error",
         mensaje: "Datos incorrectos, verifique e intente de nuevo",
       });
     }
-  } else {
+  } catch (error) {
+    console.log("error");
     res.status(200).send({
       status: "error",
-      mensaje: "Datos incorrectos, verifique e intente de nuevo",
+      mensaje: "Faltan datos, verifique e intente de nuevo",
     });
   }
-} catch (error) {
-  console.log("error")
-  res.status(200).send({
-    status: "error",
-    mensaje: "Faltan datos, verifique e intente de nuevo",
-  });
-}
 };
 export const imagenUsuario = async (req, res) => {
-
   try {
-    
- 
-  const { idUsuario } = req.body;
-  let Error = "";
-  const usuario = await Usuario.findAll({
-    where: {
-      idUsuario: idUsuario,
-    },
-  });
+    const { idUsuario } = req.body;
+    let Error = "";
+    const usuario = await Usuario.findAll({
+      where: {
+        idUsuario: idUsuario,
+      },
+    });
 
-  const rowCount = usuario.length;
+    const rowCount = usuario.length;
 
-  if (rowCount == 1) {
-
+    if (rowCount == 1) {
       const imagePath = usuario[0].photo;
       fs.readFile(imagePath, (err, data) => {
-        res.writeHead(200, { "Content-Type": "image/jpeg" });
-        res.end(data);
-      });
-    
-  } else {
-    res.status(200).send({
-      status: "error",
-      mensaje: "Datos incorrectos, verifique e intente de nuevo",
-    });
-  } } catch (error) {
+        if(data){
+          res.writeHead(200, { "Content-Type": "image/png" })
+           
+           res.end(data); 
+       }else{
+       
+       fs.readFile("./src/public/ProfileLoading.gif", (err, data) => {
+         console.error(err);
+         res.end(data);
+       })
+       }
+      })
+    }
+
+
+  } catch (error) {
     res.status(200).send({
       status: "error",
       mensaje: "Datos incorrectos, verifique e intente de nuevo",
@@ -84,39 +85,34 @@ export const imagenUsuario = async (req, res) => {
 
 export const perfilUsuario = async (req, res) => {
   try {
-    
-  
-  
-  
-  const { idUsuario } = req.body;
-  let Error = "";
-  const usuario = await Usuario.findAll({attributes: ['user','idUsuario']},{
-    where: {
-      idUsuario: idUsuario,
-    },
-  });
+    const { idUsuario } = req.body;
+    let Error = "";
+    const usuario = await Usuario.findAll(
+      { attributes: ["user", "idUsuario"] },
+      {
+        where: {
+          idUsuario: idUsuario,
+        },
+      }
+    );
 
-  const rowCount = usuario.length;
+    const rowCount = usuario.length;
 
-  if (rowCount == 1) {
-
-  
-    res.status(200).send(usuario);
-
-    
-  } else {
+    if (rowCount == 1) {
+      res.status(200).send(usuario);
+    } else {
+      res.status(200).send({
+        status: "error",
+        mensaje: "Datos incorrectos, verifique e intente de nuevo",
+      });
+    }
+  } catch (error) {
     res.status(200).send({
       status: "error",
       mensaje: "Datos incorrectos, verifique e intente de nuevo",
     });
-  }}
- catch (error) {
-  res.status(200).send({
-    status: "error",
-    mensaje: "Datos incorrectos, verifique e intente de nuevo",
-  });
-  }};
-
+  }
+};
 
 export const crearUsuario = async (req, res) => {
   try {
@@ -189,11 +185,19 @@ export const crearUsuario = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
+    res.status(200).send({
+      status: "error",
+      mensaje: "Ha ocurrido un error inesperado: " + error,
+    });
   }
 };
 
 export const editarUsaurio = async (req, res) => {
+try {
+  
+
+
+
   const { user, password, email } = req.body;
   let salt = 10;
   //Encriptar contraseña y validar que no se ha utilizado el email
@@ -221,7 +225,7 @@ export const editarUsaurio = async (req, res) => {
       res.status(200).send({
         status: "Error",
         mensaje:
-          "El usuario o correo ya se encuentra en uso, intente con uno diferente.",
+          "El usuario o correo ya se encuentra en uso.",
       });
     }
   } else {
@@ -229,10 +233,19 @@ export const editarUsaurio = async (req, res) => {
       status: "error",
       mensaje: "Ha ocurrido un error inesperado",
     });
+  }} catch (error) {
+    res.status(200).send({
+      status: "error",
+      mensaje: "Ha ocurrido un error inesperado: " + error,
+    });
   }
 };
 
 export const eliminarUsuario = async (req, res) => {
+  
+  try {
+    
+ 
   const usuario = await Usuario.findByPk(req.query.id);
 
   if (usuario) {
@@ -245,6 +258,11 @@ export const eliminarUsuario = async (req, res) => {
     res.status(200).send({
       status: "error",
       mensaje: "Ha ocurrido un error inesperado",
+    });
+  }} catch (error) {
+    res.status(200).send({
+      status: "error",
+      mensaje: "Ha ocurrido un error inesperado: " + error,
     });
   }
 };
