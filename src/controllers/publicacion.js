@@ -7,7 +7,7 @@ export const listarPublicaciones = async (req, res) => {
   //Encriptar contraseña y validar que no se ha utilizado el email
   try {
     const Publicaciones = await Publicacion.findAll({
-      order: [['createdAt', 'DESC']], // or 'ASC' for ascending order
+      order: [['createdAt', 'ASC']], // or 'ASC' for ascending order
     });
     console.log(Publicaciones);
     if (Publicaciones.length >= 1) {

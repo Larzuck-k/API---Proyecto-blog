@@ -2,7 +2,6 @@ import { QueryTypes } from "sequelize";
 import Comentario from "../models/comentario.js";
 
 export const listarporPublicacion = async (req, res) => {
-  //Encriptar contraseña y validar que no se ha utilizado el email
 
   try {
     const Comentarios = await Comentario.sequelize.query(
