@@ -19,7 +19,5 @@ export default db.define('usuario', {
   password: {
     type: DataTypes.STRING(5000)
   },
-  photo: {
-    type: DataTypes.STRING(5000)
-  }
+
 });

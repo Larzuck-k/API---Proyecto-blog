@@ -8,9 +8,7 @@ export default db.define('publicacion', {
     autoIncrement: true,
     primaryKey: true
   },
-  photo: {
-    type: DataTypes.BLOB
-  },
+
   titulo: {
     type: DataTypes.STRING(200)
   },
